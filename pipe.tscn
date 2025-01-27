@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=3 uid="uid://dcapr2unj2jn0"]
+
+[ext_resource type="Script" path="res://pipe.gd" id="1_3qebf"]
+[ext_resource type="Texture2D" uid="uid://6popr6ef8x7g" path="res://art/pipes/pipe.png" id="1_baxlb"]
+[ext_resource type="Script" path="res://ScoreArea.gd" id="3_6l38r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uqul8"]
+size = Vector2(72, 524)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2wt4p"]
+size = Vector2(78, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3pjlo"]
+size = Vector2(72, 524)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ou7t8"]
+size = Vector2(78, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qtnih"]
+size = Vector2(20, 228)
+
+[node name="Pipe" type="Node2D"]
+
+[node name="PipeArea" type="Area2D" parent="."]
+script = ExtResource("1_3qebf")
+
+[node name="Upper" type="Sprite2D" parent="PipeArea"]
+texture = ExtResource("1_baxlb")
+offset = Vector2(0, -380)
+flip_v = true
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="PipeArea"]
+position = Vector2(0, -398)
+shape = SubResource("RectangleShape2D_uqul8")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="PipeArea"]
+position = Vector2(0, -118)
+shape = SubResource("RectangleShape2D_2wt4p")
+
+[node name="Lower" type="Sprite2D" parent="PipeArea"]
+texture = ExtResource("1_baxlb")
+offset = Vector2(0, 380)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="PipeArea"]
+position = Vector2(0, 398)
+shape = SubResource("RectangleShape2D_3pjlo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PipeArea"]
+position = Vector2(0, 118)
+shape = SubResource("RectangleShape2D_ou7t8")
+
+[node name="ScoreArea" type="Area2D" parent="."]
+script = ExtResource("3_6l38r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScoreArea"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_qtnih")
+
+[connection signal="body_entered" from="PipeArea" to="PipeArea" method="_on_body_entered"]
+[connection signal="body_entered" from="ScoreArea" to="PipeArea" method="_on_score_area_body_entered"]
+[connection signal="body_entered" from="ScoreArea" to="ScoreArea" method="_on_body_entered"]

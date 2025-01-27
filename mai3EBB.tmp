@@ -1,0 +1,167 @@
+[gd_scene load_steps=19 format=3 uid="uid://dtfv56c7b8afs"]
+
+[ext_resource type="Texture2D" uid="uid://54mmyo0w15dt" path="res://art/playerGrey_up1.png" id="1_0l4sl"]
+[ext_resource type="Script" path="res://Player.cs" id="1_512b3"]
+[ext_resource type="Script" path="res://main.gd" id="1_ledqm"]
+[ext_resource type="PackedScene" uid="uid://dcapr2unj2jn0" path="res://pipe.tscn" id="2_bmpqy"]
+[ext_resource type="Texture2D" uid="uid://3ccpo8f4gy0h" path="res://art/playerGrey_up2.png" id="2_qnuwa"]
+[ext_resource type="Texture2D" uid="uid://byprf3aj2uvy1" path="res://art/playerGrey_walk1.png" id="3_c4n4h"]
+[ext_resource type="Texture2D" uid="uid://bsojc3lvqsnbi" path="res://art/playerGrey_walk2.png" id="4_cec8g"]
+[ext_resource type="Script" path="res://ParallaxBackgroundBehavior.gd" id="6_bbc26"]
+[ext_resource type="Texture2D" uid="uid://dj6ctjdlhr87t" path="res://art/sky.png" id="7_21k5k"]
+[ext_resource type="Texture2D" uid="uid://ddcxg3r44tc27" path="res://art/mountains.png" id="7_tnxi1"]
+[ext_resource type="Texture2D" uid="uid://bwif1uokbrt1g" path="res://art/4.png" id="7_yv7ba"]
+[ext_resource type="FontFile" uid="uid://tbqe3nb2kdio" path="res://04B_30__.TTF" id="12_yvek7"]
+[ext_resource type="Script" path="res://ScoreLabel.gd" id="13_877jk"]
+[ext_resource type="Script" path="res://UserInterface.gd" id="13_iayj7"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rjusk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_0l4sl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_qnuwa")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_c4n4h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_cec8g")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hnlkc"]
+radius = 27.0
+height = 68.0
+
+[sub_resource type="Theme" id="Theme_vmkv0"]
+default_font = ExtResource("12_yvek7")
+default_font_size = 22
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l4gik"]
+bg_color = Color(0.197283, 1.92523e-07, 0.926196, 1)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_ledqm")
+pipe_scene = ExtResource("2_bmpqy")
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(240, 320)
+script = ExtResource("1_512b3")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_rjusk")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CapsuleShape2D_hnlkc")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+script = ExtResource("6_bbc26")
+
+[node name="Background" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Background"]
+position = Vector2(240, 354)
+scale = Vector2(2.95, 2.95)
+texture = ExtResource("7_21k5k")
+
+[node name="Clouds" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(1200, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Clouds"]
+position = Vector2(390, 354)
+scale = Vector2(2, 2)
+texture = ExtResource("7_yv7ba")
+
+[node name="Mountain" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(640, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Mountain"]
+position = Vector2(267, 483)
+scale = Vector2(2, 2)
+texture = ExtResource("7_tnxi1")
+region_rect = Rect2(0, 0, 323, 242.384)
+
+[node name="PipeTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="UserInterface" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 480.0
+offset_bottom = 720.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_vmkv0")
+script = ExtResource("13_iayj7")
+
+[node name="ScoreLabel" type="Label" parent="UserInterface"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -76.5
+offset_right = 76.5
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "SCORE: 0"
+script = ExtResource("13_877jk")
+
+[node name="GameOverPanel" type="PanelContainer" parent="UserInterface"]
+unique_name_in_owner = true
+visible = false
+self_modulate = Color(1, 1, 1, 0.509804)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_l4gik")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UserInterface/GameOverPanel"]
+layout_mode = 2
+
+[node name="GameOverText" type="Label" parent="UserInterface/GameOverPanel/VBoxContainer"]
+layout_mode = 2
+text = "game over"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameOverScoreText" type="Label" parent="UserInterface/GameOverPanel/VBoxContainer"]
+layout_mode = 2
+text = "Score: 50"
+
+[node name="HighScoreText" type="Label" parent="UserInterface/GameOverPanel/VBoxContainer"]
+layout_mode = 2
+text = "High score: 0
+"
+
+[node name="ResetButton" type="Button" parent="UserInterface/GameOverPanel/VBoxContainer"]
+layout_mode = 2
+text = "play again"
+
+[connection signal="timeout" from="PipeTimer" to="." method="_on_pipe_timer_timeout"]
+[connection signal="visibility_changed" from="UserInterface/GameOverPanel" to="UserInterface" method="_on_game_over_panel_visibility_changed"]
+[connection signal="pressed" from="UserInterface/GameOverPanel/VBoxContainer/ResetButton" to="UserInterface" method="_on_reset_button_pressed"]
