@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://dcapr2unj2jn0"]
 
-[ext_resource type="Script" path="res://pipe.gd" id="1_3qebf"]
+[ext_resource type="Script" path="res://scripts/pipe.gd" id="1_3qebf"]
 [ext_resource type="Texture2D" uid="uid://6popr6ef8x7g" path="res://art/pipes/pipe.png" id="1_baxlb"]
-[ext_resource type="Script" path="res://ScoreArea.gd" id="3_6l38r"]
+[ext_resource type="Script" path="res://scripts/ScoreArea.gd" id="3_6l38r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uqul8"]
 size = Vector2(72, 524)
